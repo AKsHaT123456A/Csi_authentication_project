@@ -24,11 +24,7 @@ const sendVerifyMail = async(email,user_id)=>{
       subject: "Verification", 
       text: "", 
        html: verifyOtp +" is the otp for verifcation"
-    });
-    
-    // console.log("Message sent: %s", info.messageId);
-  
-    // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    });  
   }catch (error) {
     console.log(error);
   }
