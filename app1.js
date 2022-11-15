@@ -19,7 +19,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.set("view engine","ejs");
 app.get("/",function(req,res){
-    res.render("recaptcha")
+    res.render("captcha")
 })
 app.post("/",function(req,res)
 {
