@@ -1,5 +1,4 @@
 
- var isVerified = Boolean(false);
  var Otp = Math.floor(1000 + Math.random() * 9000);
 //  var verifyOtp = Otp.toString();
 const express = require("express");
@@ -38,7 +37,6 @@ const sendVerifyMail = async (req,res)=>{
       text: "", 
        html:Otp +" is the otp for verifcation",
     });  
-    flag =0;
     console.log("sent");
   }catch (error) {
     console.log(error);
