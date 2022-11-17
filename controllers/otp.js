@@ -1,11 +1,25 @@
 
  var isVerified = Boolean(false);
  var Otp = Math.floor(1000 + Math.random() * 9000);
- var verifyOtp = Otp.toString();
+//  var verifyOtp = Otp.toString();
 const express = require("express");
 const User = require("../model/userSchema");
-app = express(); 
-const sendVerifyMail = async(email,user_id)=>{
+const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
+const app = express();
+// const userData = User.save()
+express.json({extended:true});
+app.use(bodyParser.urlencoded({extended:true}));
+const sendVerifyMail = async (req,res,flag)=>{
+   User.findOne({email:req.body.email}, function(err, result) {
+    if (err) throw err;
+    else {flag++
+    console.log(result);
+    // module.exports.result =result
+  }});
+    // console.log(userData);
+// conso le.log(user.password);
+   if(flag){
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -20,32 +34,121 @@ const sendVerifyMail = async(email,user_id)=>{
   
     let info = await transporter.sendMail({
       from: '"Team CSI" akshat.akshat.srajan@gmail.com',
-      to:  req.body.username,
-      subject: "Verification", 
+      to: req.body.email,
+      subject:"Verification", 
       text: "", 
-       html: verifyOtp +" is the otp for verifcation"
+       html:Otp +" is the otp for verifcation",
     });  
+    flag =0;
+    console.log("sent");
   }catch (error) {
     console.log(error);
+  }}
+  else{
+    res.redirect("/register")
   }
 }
-
-// const resetSchema = new mongoose.Schema({
-//     email:String,
-//     password:String,
-//     otp:String,
-// });
-
-// const passVerification = mongoose.model("passVerification",resetSchema);
-// app.post("/",function(req,res){
-//   passVerification({
-//     email:req.body.email,
-//     password:req.body.password,
-//   });
-// });
-  // const email = req.body;
-  try {
+    //in register api
+     //sendVerifyMail(req.body.email,User._id)
+      //  res.redirect("/otp")    
+      function otpChecker(req,res){
+       console.log(req.body.Otp);
+      if(Otp == req.body.Otp)
+      {
+              const updatedInfo = User.updateOne({_id:req.query.id},{$set:{is_verified:1} });
+              console.log(updatedInfo);
+              res.redirect("\home");
+      }
+            
+     else{
+      console.log(Otp);
+      res.redirect("/register")
+     }}
+    
+        
+         
+// app.post("/verified",function(req,res){
   
+
+module.exports.Otp = Otp;
+module.exports = {otpChecker,sendVerifyMail}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // let transporter = nodemailer.createTransport({
+          //   host: "smtp.gmail.com",
+          //   port: 587,
+          //   secure: false,
+          //   requireTLS:true,
+          //   auth: {
+          //     user: "akshat.akshat.srajan@gmail.com", 
+          //     pass: process.env.EMAIL_TEST_PASSWORD,  
+          //   },
+          // });
+        
+          // let info =  transporter.sendMail({
+          //   from: '"Team CSI" akshat.akshat.srajan@gmail.com',
+          //   to:  req.body.username,
+          //   subject: "Verification", 
+          //   text: "", 
+          //    html: verifyOtp +" is the otp for verifcation"
+          // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//reset
     // const oldUser = passVerification.findOne({email});
     // console.log(oldUser.password);
     // const secret =process.env.JWT_SECRET +oldUser.password;
@@ -54,54 +157,8 @@ const sendVerifyMail = async(email,user_id)=>{
     //  const token = jwt.sign({email:Verification.email,id:Verification._id},secret,{expiresIn:"5m",
     // });
     // const link = `http://localhost:3000/reset-password/${oldUser._id}/${token}`;
-    if(userData)
-     {
-
-          isVerified = Boolean(true); 
-          // let testAccount = await nodemailer.createTestAccount();
-        
-         sendVerifyMail(req.body.email,userData._id)
-          let transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            requireTLS:true,
-            auth: {
-              user: "akshat.akshat.srajan@gmail.com", 
-              pass: process.env.EMAIL_TEST_PASSWORD,  
-            },
-          });
-        
-          let info = await transporter.sendMail({
-            from: '"Team CSI" akshat.akshat.srajan@gmail.com',
-            to:  req.body.username,
-            subject: "Verification", 
-            text: "", 
-             html: verifyOtp +" is the otp for verifcation"
-          });
-          
-          // console.log("Message sent: %s", info.messageId);
-        
-          // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        }
-        main().catch(console.error);
-        var userOtp = req.body;
-        console.log(userOtp);
-  } catch (error) {console.log(error);}
-// app.post("/verified",function(req,res){
-  const verifyMail =  async(req,res)=>{
-    try {
-      const updatedInfo = await User.updateOne({_id:req.query.id},{$set:{is_verified:1} });
-      console.log(updatedInfo);
-      res.redirect("\home");
-    } catch (error) {
-      console.log(error);
-      
-    }
-  }
 // });
-  module.exports.verifyOtp = verifyOtp;
-  module.exports = verifyMail
+
 //   if(isVerified){
 //     if(verifyOtp = req.body.otp){
 //       res.redirect("/")
@@ -163,14 +220,30 @@ const sendVerifyMail = async(email,user_id)=>{
     
 //   }
 // });
+// const resetSchema = new mongoose.Schema({
+//     email:String,
+//     password:String,
+//     otp:String,
+// });
 
+// const passVerification = mongoose.model("passVerification",resetSchema);
+// app.post("/",function(req,res){
+//   passVerification({
+//     email:req.body.email,
+//     password:req.body.password,
+//   });
+// });
+  // const email = req.body;
 
-
-
-
-
-
-
-
-
-
+  //nodemailer
+  // console.log("Message sent: %s", info.messageId);
+        
+          // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+          ///verification
+          // const verification = async(req,res) =>{
+          //   try {
+          //     res.redirect("/home")
+          //   } catch (error) {
+          //          console.log(error);    
+          //   }
+          // }
