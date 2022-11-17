@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 const sendVerifyMail = async (req,res)=>{
    User.findOne({email:req.body.email}, function(err, result) {
     if (err) throw err;
-    else {flag++
+    else {
     console.log(result);
     // module.exports.result =result
   }});
