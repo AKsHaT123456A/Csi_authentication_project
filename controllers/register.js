@@ -14,24 +14,25 @@ app.use(cookieParser());
 // adding new user (sign-up route)
 //  const register = async(req,res)=>{
    // taking a user
-   function registers(req,res){
-   const newuser=new User(req.body);
+//    function registers(req,res){
+//    const newuser=new User(req.body);
 
-  if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
+//   if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
 
-   User.findOne({email:newuser.email},function(err,user){
-       if(user) return res.status(400).json({ auth : false, message :"email exits"});
+//    User.findOne({email:newuser.email},function(err,user){
+//        if(user) return res.status(400).json({ auth : false, message :"email exits"});
 
-       newuser.save((err,doc)=>{
-           if(err) {console.log(err);
-               return res.status(400).json({ success : false});}
-           res.status(200).json({
-               success:true,
-               user : doc
-           });
-       });
-   });
-};
+//        newuser.save((err,doc)=>{
+//            if(err) {console.log(err);
+//                return res.status(400).json({ success : false});}
+//            res.status(200).json({
+//                success:true,
+//                user : doc
+//            });
+//        });
+//    });
+// };
+
 
 
 // login user
@@ -77,20 +78,27 @@ app.use(cookieParser());
 // });
 
 // //logout user
-//  app.get('/api/logout',auth,function(req,res){
-//         req.user.deleteToken(req.token,(err,user)=>{
-//             if(err) {
-//               console.log(err);
-//               return res.status(400).send(err);
-//             res.sendStatus(200);}
-//         });
-
-//     });
-
 
 // const PORT=process.env.PORT||3000;
 // app.listen(PORT,()=>{
 //     console.log(`app is live at ${PORT}`);
 // });
+const register = async (req,res)=>{
+    const newuser=new User(req.body);
 
-module.exports = registers ;
+    if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
+  
+     User.findOne({email:newuser.email},function(err,user){
+         if(user) return res.status(400).json({ auth : false, message :"email exits"});
+  
+         newuser.save((err,doc)=>{
+             if(err) {console.log(err);
+                 return res.status(400).json({ success : false});}
+             res.status(200).json({
+                 success:true,
+                 user : doc
+             });
+         });
+     });
+  };
+module.exports = register ;

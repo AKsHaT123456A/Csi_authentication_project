@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User=require('./model/userSchema');
 const router  = require('./routes/user');
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000 ;
 const app =express();
 app.use(bodyParser.urlencoded({extended:true}));
 express.json({extended:true});
