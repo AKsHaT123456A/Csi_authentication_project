@@ -10,7 +10,7 @@ const app = express();
 // const userData = User.save()
 express.json({extended:true});
 app.use(bodyParser.urlencoded({extended:true}));
-const sendVerifyMail = async (req,res,flag)=>{
+const sendVerifyMail = async (req,res)=>{
    User.findOne({email:req.body.email}, function(err, result) {
     if (err) throw err;
     else {flag++
@@ -57,7 +57,7 @@ const sendVerifyMail = async (req,res,flag)=>{
       {
               const updatedInfo = User.updateOne({_id:req.query.id},{$set:{is_verified:1} });
               console.log(updatedInfo);
-              res.redirect("\home");
+              res.redirect("/home");
       }
             
      else{

@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User=require('./model/userSchema');
 const router  = require('./routes/user');
+const port = process.env.PORT || 3000
 const app =express();
 app.use(bodyParser.urlencoded({extended:true}));
 express.json({extended:true});
@@ -17,7 +18,7 @@ mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{us
 // console.log(User.findOne({email : "ansihkappuri1919@gmial.com"}));
 // const sendOtp = require("./router/otp");
 // console.log(sendOtp.verifyOtp);
-app.listen(3000,function(err){
+app.listen(port,function(err){
     if(err)console.log(err);
     else console.log("Server Started");
 })
