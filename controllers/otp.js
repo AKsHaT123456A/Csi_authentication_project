@@ -19,7 +19,6 @@ const sendVerifyMail = async (req,res)=>{
   }});
     // console.log(userData);
 // conso le.log(user.password);
-   if(flag){
   try {
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -43,11 +42,8 @@ const sendVerifyMail = async (req,res)=>{
     console.log("sent");
   }catch (error) {
     console.log(error);
-  }}
-  else{
-    res.redirect("/register")
-  }
-}
+  }};
+  
     //in register api
      //sendVerifyMail(req.body.email,User._id)
       //  res.redirect("/otp")    
