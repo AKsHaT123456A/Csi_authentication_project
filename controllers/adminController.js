@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose")
 const passport = require("passport");
 const app = express();
 express.json({extended:true})
@@ -7,6 +8,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 const User = require("../model/userSchema");
 const result = require("../controllers/otp")
 const nodemailer = require("nodemailer");
+const User = mongoose.model('User',userSchema);
+
 var flag =0;
 // const { result } = require("lodash");
 const forget =function(req,res){
