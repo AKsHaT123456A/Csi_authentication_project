@@ -27,8 +27,9 @@ const forgetVerify = async(req,res) =>
           // if(flag){
             passport.authenticate("local")(req,res,function(){
               User.updateOne({email:req.body.email},{$set:{isverified:1}});
-              userData = User.findOne({email:email},function(err,result){
-                if(err)console.log(err);});
+              userData = User.findOne({email:req.body.email},function(err,result){
+                if(err)console.log(err);
+                  console.log(result);});
                 
                 async function main(userData) {
                 
@@ -59,7 +60,7 @@ const forgetVerify = async(req,res) =>
                       
                     })});
                      console.log("sent");
-                     flag = 0;
+                  
                     // console.log("Message sent: %s", info.messageId);
                   
                     // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));

@@ -1,5 +1,16 @@
-const auth = require("./auth");
-const logins =function(req,res){
+// const auth = require("./auth");
+const express=require('express');
+const mongoose= require('mongoose');
+const bodyparser=require('body-parser');
+const cookieParser=require('cookie-parser');
+// const db=require('./config/config').get(process.env.NODE_ENV);
+const app=express();
+const User=require('../model/userSchema');
+// const auth=require('./auth');
+app.use(bodyparser.urlencoded({extended : false}));
+app.use(bodyparser.json());
+app.use(cookieParser());
+const logins =function(req,res,auth){
     let token=req.cookies.auth;
     User.findByToken(token,(err,user)=>{
         if(err) return  res(err);

@@ -13,8 +13,8 @@ const logoutController = require("../controllers/logout")
 router.get("/otp",otpController.otpChecker);
 router.get("/verify",otpController.sendVerifyMail);
 router.get("/forget",passController.forgetVerify);
-router.post("/login",logController)
-router.post("/register",regController);
-router.get("/logout",logoutController)
+// router.post("/login",logController)
+// router.post("/register",regController);
+// router.get("/logout",logoutController)
 // router.post("/verify",);
 module.exports = router;

@@ -84,11 +84,20 @@ app.use(cookieParser());
 //     console.log(`app is live at ${PORT}`);
 // });
 const register = async (req,res)=>{
-    const newuser=new User(req.body);
-
+    const newuser=new User({fullname:req.body.fullname},
+                            {rollno:req.body.rollno},
+                            {year:req.body.year},
+                            {branch:req.body.branch},
+                            {mobno:req.body.mobno},
+                            {email:req.body.email},
+                            {password:req.body.password},
+                            {password2:req.body.password2});
+                            console.log(newuser);
+    // console.log(newuser.branch);
     if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
   
      User.findOne({email:newuser.email},function(err,user){
+        // console.log(user);
          if(user) return res.status(400).json({ auth : false, message :"email exits"});
   
          newuser.save((err,doc)=>{

@@ -12,4 +12,4 @@ let auth=(req,res,next)=>{
     next();
   })
 }
-module.exports=auth;
+module.exports={auth};
