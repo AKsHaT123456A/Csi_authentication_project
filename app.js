@@ -15,7 +15,7 @@ mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{us
 const cookieParser=require('cookie-parser');
 // const db=require('./config/config').get(process.env.NODE_ENV);
 const {auth}=require('./controllers/auth');
-const { isMatch } = require('lodash');
+// const { isMatch } = require('lodash');
 app.use("/",router)
 const User = mongoose.model('User',userSchema);
 app.use(bodyParser.urlencoded({extended : false}));
@@ -140,12 +140,12 @@ app.get('/register',function(req,res){
 
     });
 
-app.get("/login",async(req,res)=>{
+app.post("/login",async(req,res)=>{
   try {
      let token;
      const {email , password} = req.body;
      if(!email || !password){
-      return res.send("Fill the")
+      return res.send("Fill the Details")
      }
      const userLogged = await User.findOne({email:email});
      if(userLogged){
@@ -158,6 +158,7 @@ app.get("/login",async(req,res)=>{
       if(!matched){
         res.status(200).send("Incorrect") }
       else{
+        loginFlag = User.updateOne
         res.send("Matched")
       }
       }else{
