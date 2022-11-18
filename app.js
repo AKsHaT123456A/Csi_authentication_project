@@ -16,6 +16,13 @@ const cookieParser=require('cookie-parser');
 // const db=require('./config/config').get(process.env.NODE_ENV);
 const {auth}=require('./controllers/auth');
 // const { isMatch } = require('lodash');
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 app.use("/",router)
 const User = mongoose.model('User',userSchema);
 app.use(bodyParser.urlencoded({extended : false}));
@@ -23,7 +30,17 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 // mongoose.Promise=global.Promise;
 // adding new user (sign-up route)
-
+app.get("/userid",async() =>{
+  try {
+    const id = newuser._id;
+    const userData = await User.findById(id);
+    if(userData){
+      const updatedInfo = User.updateOne({_id:id},{$set:{loginFlag:1} });
+    }
+  } catch (error) {
+    
+  }
+})
 app.post('/register',function(req,res){
    // taking a user
    const newuser=new User(req.body);

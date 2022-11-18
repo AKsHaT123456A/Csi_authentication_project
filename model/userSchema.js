@@ -58,7 +58,10 @@ const userSchema=mongoose.Schema({
     loginFlag:{
       type:Number,
       default:0
-    }
+    },
+    otp:{
+      type:Number,
+    },
     
 });
 
@@ -90,6 +93,7 @@ userSchema.pre('save',function(next){
           let token = jwt.sign({_id:this._id} , process.env.SECRET);
           // this.tokens = this.tokens.concat({token:token});
           // await token.save();
+
           return token;
       } catch(err) {
           console.log(err);
