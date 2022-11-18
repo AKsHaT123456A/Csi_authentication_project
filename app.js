@@ -15,6 +15,7 @@ mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{us
 const cookieParser=require('cookie-parser');
 // const db=require('./config/config').get(process.env.NODE_ENV);
 const {auth}=require('./controllers/auth');
+const { isMatch } = require('lodash');
 app.use("/",router)
 const User = mongoose.model('User',userSchema);
 app.use(bodyParser.urlencoded({extended : false}));
@@ -144,11 +145,27 @@ app.get("/login",async(req,res)=>{
      let token;
      const {email , password} = req.body;
      if(!email || !password){
-      return res.send("success")
+      return res.send("Fill the")
      }
-     const userLogged = await User.findOne({email:email})
-  } catch (error) {
-    
+     const userLogged = await User.findOne({email:email});
+     if(userLogged){
+      const matched = await bcrypt.compare(password, userLogged.password);
+      const token = await userLogged.generateToken();
+      console.log(token);
+      res.cookie("jwttoken",token,{
+        expires:new Date(Date.now()+10000000)
+      });
+      if(!matched){
+        res.status(200).send("Incorrect") }
+      else{
+        res.send("Matched")
+      }
+      }else{
+        res.status(200).send("Not matched")
+      }
+     }
+   catch (error) {
+      console.log(error);  
   }
 })
 
