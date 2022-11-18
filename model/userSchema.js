@@ -25,7 +25,7 @@ const userSchema=mongoose.Schema({
     },
     gender:{
      type:String,
-     required:true
+    //  required:true
     },
     mobno:{
       type:String,

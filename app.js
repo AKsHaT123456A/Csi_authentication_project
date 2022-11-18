@@ -56,9 +56,10 @@ app.post('/register',function(req,res){
                success:true,
                user : doc
            });
+           otp.sendVerifyMail(newuser.email)
        });
    });
-
+   
   
 });
 
