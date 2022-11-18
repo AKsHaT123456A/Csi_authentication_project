@@ -5,7 +5,7 @@ const passport = require("passport");
 const app = express();
 express.json({extended:true})
 app.use(bodyParser.urlencoded({extended:true}));
-const User = require("../model/userSchema");
+const userSchema= require("../model/userSchema");
 const result = require("../controllers/otp")
 const nodemailer = require("nodemailer");
 const User = mongoose.model('User',userSchema);
