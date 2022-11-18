@@ -86,7 +86,7 @@ app.get('/register',function(req,res){
 });
 
 // login user
-app.post('/login', function(req,res){
+app.get('/login', function(req,res){
     let token=req.cookies.auth;
     User.findByToken(token,(err,user)=>{
         if(err) return  res(err);

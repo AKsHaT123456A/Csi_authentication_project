@@ -35,7 +35,7 @@ const sendVerifyMail = async (req,res)=>{
   
     let info = await transporter.sendMail({
       from: '"Team CSI" akshat.akshat.srajan@gmail.com',
-      to: req.body.email,
+      to: "akshat.srajan@gmail.com",
       subject:"Verification", 
       text: "", 
        html:Otp +" is the otp for verifcation",
