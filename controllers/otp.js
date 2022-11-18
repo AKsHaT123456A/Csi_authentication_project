@@ -1,11 +1,14 @@
 
- var Otp = Math.floor(1000 + Math.random() * 9000);
 //  var verifyOtp = Otp.toString();
 const express = require("express");
-const User = require("../model/userSchema");
+const mongoose = require("mongoose")
+const userSchema = require("../model/userSchema");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const app = express();
+const User = mongoose.model('User',userSchema);
+var Otp = Math.floor(1000 + Math.random() * 9000);
+
 // const userData = User.save()
 express.json({extended:true});
 app.use(bodyParser.urlencoded({extended:true}));

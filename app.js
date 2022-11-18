@@ -63,7 +63,7 @@ userSchema.statics.findByToken=function(token,cb){
       if(err) return cb(err);
       cb(null,user);
     })})}
-app.post('/register',function(req,res){
+app.get('/register',function(req,res){
    // taking a user
    const newuser=new User(req.body);
 
