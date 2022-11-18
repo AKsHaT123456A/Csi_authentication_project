@@ -54,12 +54,12 @@ const sendVerifyMail = async (req,res)=>{
       {
               const updatedInfo = User.updateOne({_id:req.query.id},{$set:{is_verified:1} });
               console.log(updatedInfo);
-              res.redirect("/home");
+              res.send("Otp sent");
       }
             
      else{
       console.log(Otp);
-      res.redirect("/register")
+      res.send("Not send")
      }}
     
         

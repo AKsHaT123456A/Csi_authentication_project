@@ -6,19 +6,18 @@ const app = express();
 express.json({extended:true})
 app.use(bodyParser.urlencoded({extended:true}));
 const userSchema= require("../model/userSchema");
-const result = require("../controllers/otp")
+// const result = require("../controllers/otp")
 const nodemailer = require("nodemailer");
 const User = mongoose.model('User',userSchema);
 
-var flag =0;
 // const { result } = require("lodash");
-const forget =function(req,res){
-    try {
-        res.redirect("/forget");
-    } catch (error) {console.log(error);
+// const forget =function(req,res){
+//     try {
+//         res.redirect("/forget");
+//     } catch (error) {console.log(error);
         
-    }
-}
+//     }
+// }
 const forgetVerify = async(req,res) =>
 {
     try {
@@ -35,8 +34,7 @@ const forgetVerify = async(req,res) =>
                   console.log(result);});
                 
                 async function main(userData) {
-                
-                  if(userData){
+                  if(userData.isverified){
                     let testAccount =  nodemailer.createTestAccount(); 
                     let transporter = nodemailer.createTransport({
                       host: "smtp.gmail.com",
@@ -71,7 +69,7 @@ const forgetVerify = async(req,res) =>
                   
                   main().catch(console.error);
                   }
-                else res.redirect("/register")
+                else res.send("OTP send")
                 }}
             )
                 // }
@@ -86,4 +84,4 @@ const forgetVerify = async(req,res) =>
 };
 
 
-module.exports = {forgetVerify,forget};
+module.exports = {forgetVerify};

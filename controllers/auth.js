@@ -1,5 +1,6 @@
-const User=require('../model/userSchema');
-
+const mongoose  = require('mongoose');
+const userSchema=require('../model/userSchema');
+const User = mongoose.model('User',userSchema);
 let auth=(req,res,next)=>{
   let token=req.cookies.auth;
   User.findByToken(token,(err,user)=>{
@@ -10,6 +11,6 @@ let auth=(req,res,next)=>{
     req.token=token;
     req.user=user;
     next();
-  })
+  });
 }
 module.exports={auth};
