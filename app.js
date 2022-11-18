@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userSchema=require('./model/userSchema');
 const router  = require('./routes/user');
+const otp = require("./controllers/otp")
 const port = process.env.PORT || 3000 ;
 const app =express();
 mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{useNewUrlParser:true}).then(console.log("Connection Successfully"));
@@ -28,8 +29,6 @@ const User = mongoose.model('User',userSchema);
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-// mongoose.Promise=global.Promise;
-// adding new user (sign-up route)
 app.get("/userid",async() =>{
   try {
     const id = newuser._id;

@@ -9,12 +9,12 @@ const userSchema=mongoose.Schema({
         maxlength: 100
   },
     rollno:{
-      type:Number,
+      type:String,
       // required:true,
       maxlength:13
     },
     year:{
-      type:Number,
+      type:String,
       required:true,
       maxlength:4
     },
@@ -28,7 +28,7 @@ const userSchema=mongoose.Schema({
      required:true
     },
     mobno:{
-      type:Number,
+      type:String,
       maxlength:10,
     },
     email:{
@@ -60,7 +60,7 @@ const userSchema=mongoose.Schema({
       default:0
     },
     otp:{
-      type:Number,
+      type:String,
     },
     
 });

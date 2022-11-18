@@ -13,12 +13,12 @@ var Otp = Math.floor(1000 + Math.random() * 9000);
 express.json({extended:true});
 app.use(bodyParser.urlencoded({extended:true}));
 const sendVerifyMail = async (req,res)=>{
-   User.findOne({email:req.body.email}, function(err, result) {
+   const userData = User.findOne({email:req.body.email}, function(err, result) {
     if (err) throw err;
     else {
     console.log(result);
     // module.exports.result =result
-  }});
+ 
     // console.log(userData);
 // conso le.log(user.password);
   try {
@@ -33,9 +33,9 @@ const sendVerifyMail = async (req,res)=>{
       },
     });
   
-    let info = await transporter.sendMail({
+    let info =  transporter.sendMail({
       from: 'akshat.akshat.srajan@gmail.com',
-      to: req.body.email,
+      to:userData.email,
       subject:"Verification", 
       text: "", 
        html:Otp +" is the otp for verifcation",
@@ -43,7 +43,9 @@ const sendVerifyMail = async (req,res)=>{
     console.log("sent");
   }catch (error) {
     console.log(error);
-  }};
+  }}});
+  }
+
   
     //in register api
      //sendVerifyMail(req.body.email,User._id)
