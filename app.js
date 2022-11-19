@@ -44,9 +44,8 @@ app.post('/register',function(req,res,token){
    const newuser=new User(req.body);
 
   if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
-9
-   User.findOne({email:newuser.email},async (err,user) => {
-    const token = await newuser.generateToken();
+
+   User.findOne({email:newuser.email},function(err,user){
        if(user) return res.status(400).json({ auth : false, message :"email exits"});
        else console.log(err);
        newuser.save((err,doc)=>{
@@ -55,8 +54,7 @@ app.post('/register',function(req,res,token){
            res.status(200).json({
                success:true,
                user : doc
-           })
-
+           });
            res.cookie("jwt",token,{
             expiresIn:"10min",
             httpOnly:true
@@ -64,10 +62,12 @@ app.post('/register',function(req,res,token){
            otp.sendVerifyMail(newuser.email)
            module.exports.id=newuser._id;
            console.log(newuser._id);
-           console.log(req.cookies.jwt);
 
        });
-   });})
+   });
+   
+  
+});
 
 
 //logout user
@@ -104,10 +104,10 @@ app.post("/login",async(req,res)=>{
       console.log(userLogged.password2);
       const token = await userLogged.generateToken();
       console.log(token);
-      res.cookie("jwt",token,{
-        expiresIn:"10min",
-        httpOnly:true
-       })
+                 res.cookie("jwt",token,{
+            expiresIn:"10min",
+            httpOnly:true
+           })
       if(password === userLogged.password2){
         res.send("Matched")        }
       else{

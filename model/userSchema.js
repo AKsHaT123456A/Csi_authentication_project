@@ -99,16 +99,6 @@ userSchema.pre('save',function(next){
           console.log(err);
       }
   }
-  // userSchema.methods.generateToken=function(){
-  //   var user=this;
-  //   var token=jwt.sign(user._id.toHexString(),process.env.JWT_SECRET);
-  //   user.token=token;
-  //   user.save(function(err,user){
-  //     if(err) return cb(err);
-  //     cb(null,user);
-  //   })
-  // }
-   //find by token
 userSchema.statics.findByToken=async(token,cb) => {
   var user=this;
   jwt.verify(token,process.env.SECRET,function(err,decode){
