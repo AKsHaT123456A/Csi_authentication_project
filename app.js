@@ -55,10 +55,10 @@ app.post('/register',function(req,res,token){
                success:true,
                user : doc
            });
-           res.cookie("jwt",token,{
-            expiresIn:"10min",
-            httpOnly:true
-           })
+          //  res.cookie("jwt",token,{
+          //   expiresIn:"10min",
+          //   httpOnly:true
+          //  })
            otp.sendVerifyMail(newuser.email)
            module.exports.id=newuser._id;
            console.log(newuser._id);
@@ -93,7 +93,7 @@ app.get('/profile',auth,function(req,res){
 
 app.post("/login",async(req,res)=>{
   try {
-     let token;
+     
      const {email , password} = req.body;
      if(!email || !password){
       return res.send("Fill the Details")
@@ -109,7 +109,7 @@ app.post("/login",async(req,res)=>{
             httpOnly:true
            })
       if(password === userLogged.password2){
-        res.send("Matched")        }
+        res.send("Matched")  ;      }
       else{
         // loginFlag = User.updateOne
         res.status(200).send("Incorrect") }
