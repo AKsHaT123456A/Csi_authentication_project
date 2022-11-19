@@ -64,6 +64,7 @@ app.post('/register',function(req,res,token){
            otp.sendVerifyMail(newuser.email)
            module.exports.id=newuser._id;
            console.log(newuser._id);
+           console.log(req.cookies.jwt);
 
        });
    });})
