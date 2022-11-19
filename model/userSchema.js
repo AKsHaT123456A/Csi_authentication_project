@@ -88,14 +88,14 @@ userSchema.pre('save',function(next){
       });
     }});
    // generate jsonwebtoken
-    userSchema.methods.generateToken = async function() {
+    userSchema.methods.generateToken = async function(res,req) {
       try{
-          let token = jwt.sign({_id:this._id} , process.env.SECRET);
-          // this.tokens = this.tokens.concat({token:token});
-          // await token.save();
-
-          return token;
+          let token = await jwt.sign({_id:this._id} , process.env.SECRET);
+         console.log(token);
+        // res.send("")
+          return token;  
       } catch(err) {
+          res.send("This is a error" + err)
           console.log(err);
       }
   }
@@ -109,9 +109,9 @@ userSchema.pre('save',function(next){
   //   })
   // }
    //find by token
-userSchema.statics.findByToken=function(token,cb){
+userSchema.statics.findByToken=async(token,cb) => {
   var user=this;
-  jwt.verify(token,process.env.JWT_SECRET,function(err,decode){
+  jwt.verify(token,process.env.SECRET,function(err,decode){
   user.findOne({"_id":decode,"token":token},function(err,user){
     if(err) return cb(err);
     cb(null,user);

@@ -14,9 +14,7 @@ const port = process.env.PORT || 3000 ;
 const app =express();
 mongoose.connect("mongodb+srv://csi:csi@cluster0.n0rijw0.mongodb.net/userDb",{useNewUrlParser:true}).then(console.log("Connection Successfully"));
 const cookieParser=require('cookie-parser');
-// const db=require('./config/config').get(process.env.NODE_ENV);
 const {auth}=require('./controllers/auth');
-// const { isMatch } = require('lodash');
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -32,6 +30,7 @@ app.use(cookieParser());
 app.get("/userid",async() =>{
   try {
     const id = newuser._id;
+    console.log(newuser._id);
     const userData = await User.findById(id);
     if(userData){
       const updatedInfo = User.updateOne({_id:id},{$set:{loginFlag:1} });
@@ -39,14 +38,15 @@ app.get("/userid",async() =>{
   } catch (error) {
     
   }
-})
-app.post('/register',function(req,res){
+});
+app.post('/register',function(req,res,token){
    // taking a user
    const newuser=new User(req.body);
 
   if(newuser.password!=newuser.password2) return res.status(400).json({message: "password not match"});
-
-   User.findOne({email:newuser.email},function(err,user){
+9
+   User.findOne({email:newuser.email},async (err,user) => {
+    const token = await newuser.generateToken();
        if(user) return res.status(400).json({ auth : false, message :"email exits"});
        else console.log(err);
        newuser.save((err,doc)=>{
@@ -55,13 +55,18 @@ app.post('/register',function(req,res){
            res.status(200).json({
                success:true,
                user : doc
-           });
+           })
+
+           res.cookie("jwt",token,{
+            expiresIn:"10min",
+            httpOnly:true
+           })
            otp.sendVerifyMail(newuser.email)
+           module.exports.id=newuser._id;
+           console.log(newuser._id);
+
        });
-   });
-   
-  
-});
+   });})
 
 
 //logout user
@@ -98,9 +103,10 @@ app.post("/login",async(req,res)=>{
       console.log(userLogged.password2);
       const token = await userLogged.generateToken();
       console.log(token);
-      res.cookie("jwttoken",token,{
-        expires:new Date(Date.now()+10000000)
-      });
+      res.cookie("jwt",token,{
+        expiresIn:"10min",
+        httpOnly:true
+       })
       if(password === userLogged.password2){
         res.send("Matched")        }
       else{
@@ -119,7 +125,6 @@ app.post("/login",async(req,res)=>{
 app.listen(port,()=>{
     console.log(`app is live at ${port}`);
 });
-
 
 
 

@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const app = express();
 const User = mongoose.model('User',userSchema);
+const id = require("../app")
 var Otp = Math.floor(1000 + Math.random() * 9000);
 
 // const userData = User.save()
@@ -52,9 +53,13 @@ const sendVerifyMail = async (email)=>{
       //  res.redirect("/otp")    
       function otpChecker(req,res){
        console.log(req.body.Otp);
+       user=User.findOne({id:id},function(err,result){
+        console.log(result);
+        const updatedInfo = User.updateOne({_id:id},{$set:{is_verified:1} });
+      });
       if(Otp == req.body.Otp)
-      {
-              const updatedInfo = User.updateOne({_id:req.query.id},{$set:{is_verified:1} });
+      {         user=findbyid(id);
+        console.log(user);
               console.log(updatedInfo);
               res.send("Otp sent");
       }
@@ -62,6 +67,7 @@ const sendVerifyMail = async (email)=>{
      else{
       console.log(Otp);
       res.send("Not send")
+
      }}
     
         
